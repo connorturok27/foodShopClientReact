@@ -1,13 +1,17 @@
 import React from 'react';
 import './App.css';
-import ProductCard from './ProductCard/ProductCard'
+import ProductCard from './components/ProductCard/Content';
+import {QueryCache, ReactQueryCacheProvider} from 'react-query'
+import NavigationBar from "./components/Navigation/NavigationBar";
+
+const queryCache = new QueryCache()
 
 function App() {
     return (
-        <div className="App">
-            <h1>Food</h1>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+            <NavigationBar/>
             <ProductCard/>
-        </div>
+        </ReactQueryCacheProvider>
     );
 }
 
