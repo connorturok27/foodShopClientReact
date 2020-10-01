@@ -1,7 +1,7 @@
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./Card";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
