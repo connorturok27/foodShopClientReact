@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ProductCard from './components/ProductCard/Content';
+import ProductCard from './components/ProductCard/Container';
 import {QueryCache, ReactQueryCacheProvider} from 'react-query'
 import NavigationBar from "./components/Navigation/NavigationBar";
 
