@@ -1,14 +1,16 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
-    Card, CardActions, CardActionArea
-    , CardContent, Button, Typography, CardMedia, Grid
+    Card, CardActionArea
+    , CardContent, Typography, CardMedia, Grid
 } from '@material-ui/core';
 import {useQuery} from 'react-query'
 import axios from 'axios'
 import {getFoodList} from '../../routes/shop.routes'
+import CollapseCardActions from "./CollapseCardActions";
 
-const useStyles = makeStyles({
+
+const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 275,
         backgroundColor: '#DFD1CE'
@@ -22,7 +24,18 @@ const useStyles = makeStyles({
     media: {
         height: 300,
     },
-});
+
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+}));
 
 export default function FoodCard() {
     const classes = useStyles();
@@ -37,12 +50,12 @@ export default function FoodCard() {
 
     return (
         <>
-            {data.map((food, index) => {
+            {data.map((food) => {
                 return (
-                    <Grid key={index} item xs={12} sm={5} md={4} lg={3}>
+                    <Grid key={food.id} item xs={12} sm={5} md={4} lg={3}>
                         <Card className={classes.root}>
                             <CardActionArea>
-                                <a href="http://google.com">
+                                <a href={`http://foodshop/${food.id}`}>
                                     <CardMedia
                                         component="img"
                                         className={classes.media}
@@ -58,10 +71,7 @@ export default function FoodCard() {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-
-                            <CardActions>
-                                <Button size="small">Check</Button>
-                            </CardActions>
+                            <CollapseCardActions prices={food.prices}/>
                         </Card>
                     </Grid>
                 )

@@ -80,19 +80,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchAppBar() {
     const classes = useStyles();
 
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-
     return (
-        <Grid xs={12} className={classes.root}>
+        <Grid className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
