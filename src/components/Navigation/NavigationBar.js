@@ -3,11 +3,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import {fade, makeStyles} from '@material-ui/core/styles';
 import {Grid} from "@material-ui/core";
-import {Menu, Search} from '@material-ui/icons';
-
+import {Menu} from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -81,35 +79,24 @@ export default function SearchAppBar() {
     const classes = useStyles();
 
     return (
-        <Grid className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <Menu/>
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Finolis
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <Search/>
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </Grid>
+        <>
+            <Grid className={classes.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="open drawer"
+                        >
+                            <Menu/>
+                        </IconButton>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Finolis
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+            </Grid>
+        </>
     );
 }
