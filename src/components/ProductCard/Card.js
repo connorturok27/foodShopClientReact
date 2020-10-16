@@ -5,9 +5,13 @@ import {
     , CardContent, Typography, CardMedia, Grid
 } from '@material-ui/core';
 import axios from 'axios'
-import {getFoodList} from '../../routes/shop.routes'
+import {getFoodList, getFoodTypes} from '../../routes/shop.routes'
 import CollapseCardActions from "./CollapseCardActions";
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,8 +41,12 @@ const useStyles = makeStyles((theme) => ({
     },
 
     searchRow: {
-      paddingTop: '1rem',
-      paddingBottom: '1rem'
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
     },
 
     search: {
@@ -49,67 +57,83 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         marginLeft: 0,
-        width: '75%',
+        width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(1),
             width: 'auto',
         },
-    },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
+        paddingBottom: '0.5rem'
     },
 
+    searchInputs: {
+        width: '90%',
+    },
+
+    formControl: {
+        margin: theme.spacing(1),
+        width: '90%',
+    },
 }));
 
 export default function FoodCard() {
     const classes = useStyles();
 
+    const [foodTypeTerm, setFoodTypeTerm] = useState("");
+    const [foodType, setFoodType] = useState([]);
+
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const handleChange = event => {
-        if(event.target.value.split('').length > 2) {
-            setSearchTerm(event.target.value);
-        } else {
-            setSearchTerm('');
-        }
+
+    const handleFoodTypeFilter = event => {
+        setFoodTypeTerm(event.target.value)
+    }
+
+    const handleSearch = event => {
+        const searchTerm = event.target.value.length > 2
+            ? event.target.value
+            : '';
+        setSearchTerm(searchTerm);
     };
 
     useEffect(() => {
-        axios(`${getFoodList}?search=${searchTerm}`)
+            axios(getFoodTypes)
+                .then(res => setFoodType(res.data))
+        },
+        []);
+
+    useEffect(() => {
+        axios(`${getFoodList}?search=${searchTerm}&foodType=${foodTypeTerm}`)
             .then(res => setSearchResults(res.data))
-    }, [searchTerm]);
+    }, [searchTerm, foodTypeTerm]);
 
     return (
         <>
-            <Grid xs={12} className={classes.searchRow}>
-                <div className={classes.search}>
-                    <TextField id="search"
+            <Grid className={classes.searchRow} container>
+                <Grid className={classes.search} item xs={12} sm={5} md={4} lg={3}>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="foodTypeLabel">Tipos de Comidas</InputLabel>
+                        <Select
+                            labelId="foodTypeLabel"
+                            id="searchByFoodType"
+                            className={classes.searchInputs}
+                            onChange={handleFoodTypeFilter}
+                        >
+                            {foodType.map(type => {
+                                return (
+                                    <MenuItem key={type.id} value={type.name}>{type.name}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid className={classes.search} item xs={12} sm={5} md={4} lg={3}>
+                    <TextField id="searchByName"
+                               className={classes.searchInputs}
                                label="Buscar..."
                                variant="outlined"
-                               onChange={handleChange}
+                               onChange={handleSearch}
                     />
-                </div>
+                </Grid>
             </Grid>
             {searchResults.map((food) => {
                 return (
