@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {fade, makeStyles} from '@material-ui/core/styles';
 import {
-    Card, CardActionArea
-    , CardContent, Typography, CardMedia, Grid
+    Card, CardActionArea, CardContent,
+    Typography, CardMedia, Grid,
+    TextField, InputLabel, Select,
+    MenuItem, FormControl
+
 } from '@material-ui/core';
+
 import axios from 'axios'
-import {getFoodList, getFoodTypes} from '../../routes/shop.routes'
+import {getFood, getFoodTypes} from '../../routes/shop.routes'
+
 import CollapseCardActions from "./CollapseCardActions";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
+
+import {Link} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,7 +104,7 @@ export default function FoodCard() {
         []);
 
     useEffect(() => {
-        axios(`${getFoodList}?search=${searchTerm}&foodType=${foodTypeTerm}`)
+        axios(`${getFood}?search=${searchTerm}&foodType=${foodTypeTerm}`)
             .then(res => setSearchResults(res.data))
     }, [searchTerm, foodTypeTerm]);
 
@@ -140,14 +142,14 @@ export default function FoodCard() {
                     <Grid key={food.id} item xs={12} sm={5} md={4} lg={3}>
                         <Card className={classes.root}>
                             <CardActionArea>
-                                <a href={`http://foodshop/${food.id}`}>
+                                <Link to={`/${food.id}`}>
                                     <CardMedia
                                         component="img"
                                         className={classes.media}
                                         image={food.imageURL}
                                     >
                                     </CardMedia>
-                                </a>
+                                </Link>
                                 <CardContent>
                                     <Typography className={classes.title}
                                                 gutterBottom variant="h5" component="h2"

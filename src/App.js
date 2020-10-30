@@ -1,17 +1,21 @@
 import React from 'react';
 import './App.css';
-import ProductCard from './components/ProductCard/Container';
-import {QueryCache, ReactQueryCacheProvider} from 'react-query'
+import ProductCard from './components/ProductList/Container';
 import NavigationBar from "./components/Navigation/NavigationBar";
-
-const queryCache = new QueryCache()
+import { BrowserRouter, Route } from "react-router-dom";
+import Product from "./components/Product/Product";
 
 function App() {
     return (
-        <ReactQueryCacheProvider queryCache={queryCache}>
+        <BrowserRouter>
             <NavigationBar/>
-            <ProductCard/>
-        </ReactQueryCacheProvider>
+            <Route exact path={'/'}>
+                <ProductCard/>
+            </Route>
+            <Route path={'/:productId'}>
+                <Product/>
+            </Route>
+        </BrowserRouter>
     );
 }
 
