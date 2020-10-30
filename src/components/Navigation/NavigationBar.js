@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     AppBar, Toolbar, Typography,
     IconButton, Switch, FormControlLabel,
@@ -9,7 +9,8 @@ import {
     AccountCircle, ShoppingCart,
     Menu as MenuIcon
 } from '@material-ui/icons';
-
+import {Link} from 'react-router-dom'
+import {nonStyledLinks} from "../../constants/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,9 +19,11 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
-    title: {
+
+    links: {
+        ...nonStyledLinks,
         flexGrow: 1,
-    },
+    }
 }));
 
 export default function MenuAppBar() {
@@ -45,25 +48,29 @@ export default function MenuAppBar() {
         <div className={classes.root}>
             <FormGroup>
                 <FormControlLabel
-                    control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
+                    control={<Switch checked={auth} onChange={handleChange} aria-label="login switch"/>}
                     label={auth ? 'Logout' : 'Login'}
                 />
             </FormGroup>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Finolis
-                    </Typography>
+                    <Link to={'/'} className={classes.links}>
+                        <Typography variant="h6" className={classes.title}>
+                            Finolis
+                        </Typography>
+                    </Link>
                     <IconButton
                         aria-label="shopping cart of user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         color="inherit"
                     >
-                        <ShoppingCart />
+                        <Link to={'/cart'} className={classes.links}>
+                            <ShoppingCart/>
+                        </Link>
                     </IconButton>
 
                     {auth && (
@@ -75,7 +82,7 @@ export default function MenuAppBar() {
                                 color="inherit"
                                 onClick={handleMenu}
                             >
-                                <AccountCircle />
+                                <AccountCircle/>
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
